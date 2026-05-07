@@ -1,518 +1,776 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-<title>CUIChuhanCV.md</title>
-<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>崔楮焓 — Personal Portfolio</title>
 <style>
-/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Microsoft Corporation. All rights reserved.
- *  Licensed under the MIT License. See License.txt in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+  :root {
+    --bg: #f5f5f7;
+    --sidebar-bg: #1a1a2e;
+    --sidebar-text: #a8a8c0;
+    --sidebar-active: #ffffff;
+    --accent: #4a90d9;
+    --accent-light: #e8f0fe;
+    --card-bg: #ffffff;
+    --text: #2c2c2c;
+    --text-light: #666;
+    --border: #e8e8e8;
+    --tag-bg: #eef2f7;
+    --shadow: 0 2px 12px rgba(0,0,0,0.06);
+    --shadow-hover: 0 8px 30px rgba(0,0,0,0.10);
+    --radius: 12px;
+    --sidebar-width: 280px;
+  }
 
-body {
-	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
-	font-size: var(--vscode-markdown-font-size, 14px);
-	padding: 0 26px;
-	line-height: var(--vscode-markdown-line-height, 22px);
-	word-wrap: break-word;
-}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-#code-csp-warning {
-	position: fixed;
-	top: 0;
-	right: 0;
-	color: white;
-	margin: 16px;
-	text-align: center;
-	font-size: 12px;
-	font-family: sans-serif;
-	background-color:#444444;
-	cursor: pointer;
-	padding: 6px;
-	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
-}
+  html { scroll-behavior: smooth; }
 
-#code-csp-warning:hover {
-	text-decoration: none;
-	background-color:#007acc;
-	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
-}
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    display: flex;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
 
-body.scrollBeyondLastLine {
-	margin-bottom: calc(100vh - 22px);
-}
+  /* ===== Sidebar ===== */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: var(--sidebar-width);
+    background: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 40px 30px;
+    z-index: 100;
+    overflow-y: auto;
+  }
 
-body.showEditorSelection .code-line {
-	position: relative;
-}
+  .sidebar-header { margin-bottom: 36px; }
 
-body.showEditorSelection .code-active-line:before,
-body.showEditorSelection .code-line:hover:before {
-	content: "";
-	display: block;
-	position: absolute;
-	top: 0;
-	left: -12px;
-	height: 100%;
-}
+  .sidebar-header .name {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 2px;
+  }
 
-body.showEditorSelection li.code-active-line:before,
-body.showEditorSelection li.code-line:hover:before {
-	left: -30px;
-}
+  .sidebar-header .subtitle {
+    font-size: 13px;
+    color: var(--sidebar-text);
+    margin-top: 6px;
+    line-height: 1.5;
+  }
 
-.vscode-light.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(0, 0, 0, 0.15);
-}
+  .sidebar-header .badge {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
 
-.vscode-light.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(0, 0, 0, 0.40);
-}
+  .nav-section { margin-bottom: 24px; }
 
-.vscode-light.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
+  .nav-section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #555;
+    margin-bottom: 10px;
+    padding-left: 4px;
+  }
 
-.vscode-dark.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(255, 255, 255, 0.4);
-}
+  .nav-list { list-style: none; }
 
-.vscode-dark.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(255, 255, 255, 0.60);
-}
+  .nav-list li { margin-bottom: 2px; }
 
-.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
+  .nav-list a {
+    display: block;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s;
+    position: relative;
+  }
 
-.vscode-high-contrast.showEditorSelection .code-active-line:before {
-	border-left: 3px solid rgba(255, 160, 0, 0.7);
-}
+  .nav-list a:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.06);
+  }
 
-.vscode-high-contrast.showEditorSelection .code-line:hover:before {
-	border-left: 3px solid rgba(255, 160, 0, 1);
-}
+  .nav-list a.active {
+    color: var(--sidebar-active);
+    background: rgba(74,144,217,0.2);
+    font-weight: 500;
+  }
 
-.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
-	border-left: none;
-}
+  .nav-list a.sub {
+    padding-left: 24px;
+    font-size: 13px;
+  }
 
-img {
-	max-width: 100%;
-	max-height: 100%;
-}
+  .sidebar-footer {
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 12px;
+    color: #666;
+  }
 
-a {
-	text-decoration: none;
-}
+  .sidebar-footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
 
-a:hover {
-	text-decoration: underline;
-}
+  .sidebar-footer a:hover { text-decoration: underline; }
 
-a:focus,
-input:focus,
-select:focus,
-textarea:focus {
-	outline: 1px solid -webkit-focus-ring-color;
-	outline-offset: -1px;
-}
+  /* ===== Main ===== */
+  .main {
+    margin-left: var(--sidebar-width);
+    flex: 1;
+    padding: 48px 52px;
+    max-width: 1000px;
+  }
 
-hr {
-	border: 0;
-	height: 2px;
-	border-bottom: 2px solid;
-}
+  .section {
+    margin-bottom: 64px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
 
-h1 {
-	padding-bottom: 0.3em;
-	line-height: 1.2;
-	border-bottom-width: 1px;
-	border-bottom-style: solid;
-}
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-h1, h2, h3 {
-	font-weight: normal;
-}
+  .section-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
 
-table {
-	border-collapse: collapse;
-}
+  .section-divider {
+    width: 48px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin-bottom: 32px;
+  }
 
-table > thead > tr > th {
-	text-align: left;
-	border-bottom: 1px solid;
-}
+  /* ===== Hero ===== */
+  .hero-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 36px 40px;
+    box-shadow: var(--shadow);
+  }
 
-table > thead > tr > th,
-table > thead > tr > td,
-table > tbody > tr > th,
-table > tbody > tr > td {
-	padding: 5px 10px;
-}
+  .hero-card .intro { font-size: 15px; color: var(--text-light); margin-bottom: 20px; line-height: 1.8; }
 
-table > tbody > tr + tr > td {
-	border-top: 1px solid;
-}
+  .skill-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 24px;
+  }
 
-blockquote {
-	margin: 0 7px 0 5px;
-	padding: 0 16px 0 10px;
-	border-left-width: 5px;
-	border-left-style: solid;
-}
+  .skill-block h4 {
+    font-size: 14px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: 1px;
+  }
 
-code {
-	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
-	font-size: 1em;
-	line-height: 1.357em;
-}
+  .skill-block h4 .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+  }
 
-body.wordWrap pre {
-	white-space: pre-wrap;
-}
+  .skill-block ul {
+    list-style: none;
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 2;
+  }
 
-pre:not(.hljs),
-pre.hljs code > div {
-	padding: 16px;
-	border-radius: 3px;
-	overflow: auto;
-}
+  .skill-block ul li::before { content: "▸ "; color: var(--accent); font-size: 10px; }
 
-pre code {
-	color: var(--vscode-editor-foreground);
-	tab-size: 4;
-}
+  /* ===== Project Card ===== */
+  .project-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 32px;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
 
-/** Theming */
+  .project-card:hover { box-shadow: var(--shadow-hover); }
 
-.vscode-light pre {
-	background-color: rgba(220, 220, 220, 0.4);
-}
+  .project-header {
+    padding: 28px 32px 0;
+  }
 
-.vscode-dark pre {
-	background-color: rgba(10, 10, 10, 0.4);
-}
+  .project-header h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
 
-.vscode-high-contrast pre {
-	background-color: rgb(0, 0, 0);
-}
+  .project-header .project-subtitle {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-bottom: 8px;
+  }
 
-.vscode-high-contrast h1 {
-	border-color: rgb(0, 0, 0);
-}
+  .project-body {
+    display: flex;
+    gap: 32px;
+    padding: 20px 32px 32px;
+    align-items: flex-start;
+  }
 
-.vscode-light table > thead > tr > th {
-	border-color: rgba(0, 0, 0, 0.69);
-}
+  .project-gallery {
+    flex-shrink: 0;
+    width: 260px;
+  }
 
-.vscode-dark table > thead > tr > th {
-	border-color: rgba(255, 255, 255, 0.69);
-}
+  .gallery-main {
+    width: 260px;
+    height: 260px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 10px;
+    background: #f0f0f0;
+  }
 
-.vscode-light h1,
-.vscode-light hr,
-.vscode-light table > tbody > tr + tr > td {
-	border-color: rgba(0, 0, 0, 0.18);
-}
+  .gallery-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
 
-.vscode-dark h1,
-.vscode-dark hr,
-.vscode-dark table > tbody > tr + tr > td {
-	border-color: rgba(255, 255, 255, 0.18);
-}
+  .gallery-main:hover img { transform: scale(1.05); }
 
+  .gallery-thumbs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .gallery-thumbs::-webkit-scrollbar { height: 4px; }
+  .gallery-thumbs::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
+
+  .gallery-thumbs img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .gallery-thumbs img.active { border-color: var(--accent); }
+
+  .project-desc {
+    flex: 1;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.9;
+  }
+
+  .project-desc strong { color: #1a1a1a; }
+
+  .project-desc ul {
+    margin: 6px 0 12px 16px;
+    list-style: none;
+  }
+
+  .project-desc ul li::before { content: "• "; color: var(--accent); }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .tag {
+    font-size: 12px;
+    padding: 4px 12px;
+    background: var(--tag-bg);
+    border-radius: 20px;
+    color: #555;
+    letter-spacing: 1px;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .project-links a {
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .project-links a:hover { color: #2a6eb5; text-decoration: underline; }
+
+  /* ===== Image modal ===== */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .modal.show { display: flex; }
+
+  .modal img {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 8px;
+    cursor: default;
+  }
+
+  .modal-close {
+    position: fixed;
+    top: 24px;
+    right: 32px;
+    font-size: 32px;
+    color: #fff;
+    cursor: pointer;
+    z-index: 1000;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .modal-close:hover { opacity: 1; }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 800px) {
+    body { flex-direction: column; }
+    .sidebar {
+      position: relative;
+      width: 100%;
+      padding: 24px 20px;
+    }
+    .main {
+      margin-left: 0;
+      padding: 24px 20px;
+    }
+    .project-body { flex-direction: column; }
+    .project-gallery { width: 100%; }
+    .gallery-main { width: 100%; height: 220px; }
+    .skill-grid { grid-template-columns: 1fr; }
+  }
 </style>
-
-<style>
-/* Tomorrow Theme */
-/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
-/* Original theme - https://github.com/chriskempson/tomorrow-theme */
-
-/* Tomorrow Comment */
-.hljs-comment,
-.hljs-quote {
-	color: #8e908c;
-}
-
-/* Tomorrow Red */
-.hljs-variable,
-.hljs-template-variable,
-.hljs-tag,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-regexp,
-.hljs-deletion {
-	color: #c82829;
-}
-
-/* Tomorrow Orange */
-.hljs-number,
-.hljs-built_in,
-.hljs-builtin-name,
-.hljs-literal,
-.hljs-type,
-.hljs-params,
-.hljs-meta,
-.hljs-link {
-	color: #f5871f;
-}
-
-/* Tomorrow Yellow */
-.hljs-attribute {
-	color: #eab700;
-}
-
-/* Tomorrow Green */
-.hljs-string,
-.hljs-symbol,
-.hljs-bullet,
-.hljs-addition {
-	color: #718c00;
-}
-
-/* Tomorrow Blue */
-.hljs-title,
-.hljs-section {
-	color: #4271ae;
-}
-
-/* Tomorrow Purple */
-.hljs-keyword,
-.hljs-selector-tag {
-	color: #8959a8;
-}
-
-.hljs {
-	display: block;
-	overflow-x: auto;
-	color: #4d4d4c;
-	padding: 0.5em;
-}
-
-.hljs-emphasis {
-	font-style: italic;
-}
-
-.hljs-strong {
-	font-weight: bold;
-}
-</style>
-
-<style>
-/*
- * Markdown PDF CSS
- */
-
- body {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
-	padding: 0 12px;
-}
-
-pre {
-	background-color: #f8f8f8;
-	border: 1px solid #cccccc;
-	border-radius: 3px;
-	overflow-x: auto;
-	white-space: pre-wrap;
-	overflow-wrap: break-word;
-}
-
-pre:not(.hljs) {
-	padding: 23px;
-	line-height: 19px;
-}
-
-blockquote {
-	background: rgba(127, 127, 127, 0.1);
-	border-color: rgba(0, 122, 204, 0.5);
-}
-
-.emoji {
-	height: 1.4em;
-}
-
-code {
-	font-size: 14px;
-	line-height: 19px;
-}
-
-/* for inline code */
-:not(pre):not(.hljs) > code {
-	color: #C9AE75; /* Change the old color so it seems less like an error */
-	font-size: inherit;
-}
-
-/* Page Break : use <div class="page"/> to insert page break
--------------------------------------------------------- */
-.page {
-	page-break-after: always;
-}
-
-</style>
-
-<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
 </head>
 <body>
-  <script>
-    mermaid.initialize({
-      startOnLoad: true,
-      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
-          ? 'dark'
-          : 'default'
+
+<!-- ==================== Sidebar ==================== -->
+<nav class="sidebar">
+  <div class="sidebar-header">
+    <div class="name">崔楮焓</div>
+    <div class="subtitle">HKUST · CPEG 2023-2027<br>Mechanical Engineering & Robotics</div>
+    <div class="badge">ENTERPRIZE</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">目录</div>
+    <ul class="nav-list">
+      <li><a href="#about" class="active">个人信息</a></li>
+      <li><a href="#projects">个人项目</a></li>
+      <li><a href="#projects" class="sub">工程机器人 2025</a></li>
+      <li><a href="#projects" class="sub">自定义控制器</a></li>
+      <li><a href="#projects" class="sub">英雄机器人 2024</a></li>
+      <li><a href="#projects" class="sub">四轴外骨骼</a></li>
+      <li><a href="#research">重要研发方案</a></li>
+      <li><a href="#research" class="sub">六轴机械臂</a></li>
+      <li><a href="#research" class="sub">改装气泵</a></li>
+      <li><a href="#research" class="sub">多种舵轮</a></li>
+      <li><a href="#research" class="sub">供弹系统</a></li>
+    </ul>
+  </div>
+
+  <div class="sidebar-footer">
+    <a href="https://github.com/ccuiab" target="_blank">GitHub</a> · <a href="mailto:ccuiab@connect.ust.hk">Email</a>
+  </div>
+</nav>
+
+<!-- ==================== Main Content ==================== -->
+<main class="main">
+
+  <!-- ===== 个人信息 ===== -->
+  <section class="section" id="about">
+    <h2 class="section-title">个人信息</h2>
+    <div class="section-divider"></div>
+    <div class="hero-card">
+      <div class="intro">
+        <p>🏛️ <strong>香港科技大学电子与计算机工程专业 (CPEG), 2023-2027</strong></p>
+        <p style="margin-top:4px;">🤖 <strong>3 年 RoboMaster 参赛经历 (香港科技大学 ENTERPRIZE 战队)</strong> — 2025 赛季<strong>机械组组长</strong>，获<strong>工程全明星</strong>称号，创 4 级矿石 <strong>5.8s</strong> 最短兑换纪录。</p>
+      </div>
+      <div class="skill-grid">
+        <div class="skill-block">
+          <h4><span class="dot"></span>机械设计与制造</h4>
+          <ul>
+            <li>SOLIDWORKS 复杂机构综合设计与结构优化</li>
+            <li>AutoCAD、Fusion 360</li>
+            <li>3D 打印、CNC 加工、气动系统</li>
+            <li>两年高精度装配经验</li>
+          </ul>
+        </div>
+        <div class="skill-block">
+          <h4><span class="dot"></span>嵌入式与软件开发</h4>
+          <ul>
+            <li>Python、MATLAB 脚本与数据处理</li>
+            <li>STM32、C/C++ 嵌入式开发</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 个人项目 ===== -->
+  <section class="section" id="projects">
+    <h2 class="section-title">个人项目</h2>
+    <div class="section-divider"></div>
+
+    <!-- 1.1 工程机器人 -->
+    <div class="project-card" id="proj-engineering">
+      <div class="project-header">
+        <h3>RoboMaster 2025 工程机器人</h3>
+        <div class="project-subtitle">机械组组长 · 工程全明星 · 5.8s 纪录</div>
+      </div>
+      <div class="project-body">
+        <div class="project-gallery">
+          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
+            <img src="全明星.jpg" alt="全明星">
+          </div>
+          <div class="gallery-thumbs">
+            <img src="全明星.jpg" class="active" onclick="switchImage(this, '全明星.jpg')">
+            <img src="工程全明星.jpg" onclick="switchImage(this, '工程全明星.jpg')">
+            <img src="机械臂.jpg" onclick="switchImage(this, '机械臂.jpg')">
+          </div>
+        </div>
+        <div class="project-desc">
+          <strong>核心突破：</strong>实现 5.8s 破纪录采矿速度，入选 2025 赛季全明星阵容。<br><br>
+          <strong>高性能六轴机械臂系统</strong>
+          <ul>
+            <li><strong>负载与范围：</strong>末端有效负载逾 <strong>30kg</strong></li>
+            <li><strong>鲁棒性：</strong>半年高强度调试实战中<strong>零重大结构损伤</strong></li>
+            <li><strong>精度：</strong>高刚性臂体 + 精密传动补偿</li>
+          </ul>
+          <strong>全向驱动底盘</strong>
+          <ul>
+            <li>电动车橡胶轮，兼顾抓地力与减震</li>
+            <li>自研气缸悬挂舵轮，提升机械臂底座稳定性</li>
+          </ul>
+          <strong>气动系统</strong>
+          <ul>
+            <li>自主改装高流量气泵，流量精准可调</li>
+            <li>电机电流/位置反馈实现吸附状态<strong>实时监测</strong></li>
+          </ul>
+          <div class="tags">
+            <span class="tag">机械设计</span><span class="tag">系统集成</span><span class="tag">高精度</span><span class="tag">高稳定性</span>
+          </div>
+          <div class="project-links">
+            <a href="https://www.bilibili.com/video/BV1Y482zjERP/?spm_id_from=333.788.videopod.sections&vd_source=a3191892d8abed85f77e649dae496839" target="_blank">🔗 演示视频 (Bilibili)</a>
+            <a href="https://bbs.robomaster.com/article/803685?source=8" target="_blank">🔗 机械开源链接</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1.2 自定义控制器 -->
+    <div class="project-card" id="proj-controller">
+      <div class="project-header">
+        <h3>自定义控制器（高精度遥操作）</h3>
+        <div class="project-subtitle">人机交互 · 六轴联动 · 低成本高精度</div>
+      </div>
+      <div class="project-body">
+        <div class="project-gallery">
+          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
+            <img src="自定义控制器.png" alt="自定义控制器">
+          </div>
+          <div class="gallery-thumbs">
+            <img src="自定义控制器.png" class="active" onclick="switchImage(this, '自定义控制器.png')">
+          </div>
+        </div>
+        <div class="project-desc">
+          <strong>核心功能：</strong>作为核心输入终端，与工程机器人深度耦合，支撑创纪录作业效率。<br><br>
+          <strong>人机交互与人体工学</strong>
+          <ul>
+            <li>与主机械臂高度同构的六轴联动结构，1:2 直觉映射</li>
+            <li>手部抓握习惯轻量化设计，长时操作舒适精准</li>
+          </ul>
+          <strong>高性价比方案</strong>
+          <ul>
+            <li>大量 3D 打印 + 简易 3 轴 CNC，显著降低成本</li>
+            <li>桌面级尺寸，轻便低惯量，丝滑操控反馈</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">机械设计</span><span class="tag">低成本</span><span class="tag">人机交互</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 英雄机器人 -->
+    <div class="project-card" id="proj-hero">
+      <div class="project-header">
+        <h3>RoboMaster 2024 英雄机器人</h3>
+        <div class="project-subtitle">双极摩擦轮 · 自适应悬挂 · 全向移动</div>
+      </div>
+      <div class="project-body">
+        <div class="project-gallery">
+          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
+            <img src="英雄机器人.jpg" alt="英雄机器人">
+          </div>
+          <div class="gallery-thumbs">
+            <img src="英雄机器人.jpg" class="active" onclick="switchImage(this, '英雄机器人.jpg')">
+          </div>
+        </div>
+        <div class="project-desc">
+          <strong>高一致性双极摩擦轮发射系统</strong>
+          <ul>
+            <li>10m 散布 &lt; <strong>25×25cm</strong>，初速波动 <strong>±0.1m/s</strong></li>
+          </ul>
+          <strong>高可靠性连续供弹机构</strong>
+          <ul>
+            <li>防卡死拨弹结构，<strong>2Hz</strong> 恒定频率稳定供弹</li>
+            <li>弹丸尺寸公差容错，显著降低卡死率</li>
+          </ul>
+          <strong>自适应麦克纳姆轮悬挂底盘</strong>
+          <ul>
+            <li>全维度灵巧位移，通过 <strong>30cm 垂直跌落</strong>测试</li>
+          </ul>
+          <div class="tags">
+            <span class="tag">机械设计</span><span class="tag">高精度</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 外骨骼 -->
+    <div class="project-card" id="proj-exo">
+      <div class="project-header">
+        <h3>四轴手臂外骨骼（课设）</h3>
+        <div class="project-subtitle">穿戴式动力辅助 · DH 参数建模 · IMU 跟随</div>
+      </div>
+      <div class="project-body">
+        <div class="project-gallery">
+          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
+            <img src="外骨骼.jpg" alt="外骨骼">
+          </div>
+          <div class="gallery-thumbs">
+            <img src="外骨骼.jpg" class="active" onclick="switchImage(this, '外骨骼.jpg')">
+          </div>
+        </div>
+        <div class="project-desc">
+          面向人机协同作业场景的<strong>穿戴式动力辅助设备</strong>。实现 4 自由度轻量化外骨骼原型机，探索力矩补偿算法在提升搬运效率与降低劳动损伤方面的应用。<br><br>
+          <strong>运动学建模：</strong>基于 DH 参数法建立外骨骼运动学模型<br>
+          <strong>算法控制：</strong>跟随模式（IMU 预测手臂方向）+ 助力模式（闭环力矩补偿）
+          <div class="tags">
+            <span class="tag">机械设计</span><span class="tag">嵌入式开发</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 重要研发方案 ===== -->
+  <section class="section" id="research">
+    <h2 class="section-title">重要研发方案</h2>
+    <div class="section-divider"></div>
+
+    <!-- 1. 六轴机械臂 -->
+    <div class="project-card" id="rd-arm">
+      <div class="project-header">
+        <h3>六轴机械臂结构</h3>
+        <div class="project-subtitle">末端执行器 · 多场耦合传输 · 高精度传动</div>
+      </div>
+      <div class="project-body">
+        <div class="project-gallery">
+          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
+            <img src="机械臂L3.jpg" alt="机械臂L3">
+          </div>
+          <div class="gallery-thumbs">
+            <img src="机械臂L3.jpg" class="active" onclick="switchImage(this, '机械臂L3.jpg')">
+            <img src="机械臂L4.jpg" onclick="switchImage(this, '机械臂L4.jpg')">
+          </div>
+        </div>
+        <div class="project-desc">
+          <strong>工程机器人末端执行器核心设计</strong>
+          <ul>
+            <li><strong>"轮手"一体化末端：</strong>主动轮 + 气动吸盘一体，抓取与移动功能切换</li>
+            <li><strong>多场耦合传输：</strong>电滑环 + 中空旋转气动接头嵌套，解决 J4 无限旋转绕线问题</li>
+            <li><strong>空间极简化：</strong>万向轴传动 + 电机后置 L4，压缩末端体积适配矿槽</li>
+            <li><strong>高精度传动：</strong>J5/J6 等速同步轮 + 齿轮组 + 锥齿轮，J5 近乎零背隙</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 改装气泵 -->
+    <div class="project-card" id="rd-pump">
+      <div class="project-header">
+        <h3>改装气泵</h3>
+        <div class="project-subtitle">高性能二次开发 · 真空度 -85kPa · 40L/min</div>
+      </div>
+      <div class="project-body">
+        <div class="project-gallery">
+          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
+            <img src="气泵.jpg" alt="气泵">
+          </div>
+          <div class="gallery-thumbs">
+            <img src="气泵.jpg" class="active" onclick="switchImage(this, '气泵.jpg')">
+          </div>
+        </div>
+        <div class="project-desc">
+          <strong>高性能气泵二次开发：</strong>将低端气泵电机改装为 3508 直流无刷电机驱动，在维持 <strong>-85kPa</strong> 高真空度的前提下，实现超过 <strong>40L/min</strong> 大流量输出，显著提升末端吸盘响应速度。利用电机电流反馈实时感知吸盘吸附状态，以极低成本实现类气压计的检测功能。
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 多种舵轮 -->
+    <div class="project-card" id="rd-wheel">
+      <div class="project-header">
+        <h3>多种舵轮模组</h3>
+        <div class="project-subtitle">高负载悬挂 · 小型化设计 · 全向机动</div>
+      </div>
+      <div class="project-body">
+        <div class="project-gallery">
+          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
+            <img src="工程舵轮组.jpg" alt="工程舵轮组">
+          </div>
+          <div class="gallery-thumbs">
+            <img src="工程舵轮组.jpg" class="active" onclick="switchImage(this, '工程舵轮组.jpg')">
+            <img src="英雄舵轮组.jpg" onclick="switchImage(this, '英雄舵轮组.jpg')">
+          </div>
+        </div>
+        <div class="project-desc">
+          针对不同需求设计的不同舵轮模组。<br><br>
+          <strong>高负载、高平稳度、高机动性：</strong>宽大橡胶胎 + 高抓地力 + 减震能力。四个 MGN7 滑块与气弹簧组成舵下悬挂，承受高负载，提供稳定性。<br><br>
+          <strong>小型化、轻量化：</strong>舵上使用 3508 电机本体，齿轮传动配合光电门实现位置校准，压缩结构高度。轮胎用轻型聚氨酯轮，舵上悬挂减少体积。
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 供弹系统 -->
+    <div class="project-card" id="rd-feeder">
+      <div class="project-header">
+        <h3>两种供弹系统</h3>
+        <div class="project-subtitle">大弹丸侧供弹 · 小弹丸中心供弹</div>
+      </div>
+      <div class="project-body">
+        <div class="project-gallery">
+          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
+            <img src="大弹丸测供弹.jpg" alt="大弹丸测供弹">
+          </div>
+          <div class="gallery-thumbs">
+            <img src="大弹丸测供弹.jpg" class="active" onclick="switchImage(this, '大弹丸测供弹.jpg')">
+            <img src="小弹丸中心供弹.jpg" onclick="switchImage(this, '小弹丸中心供弹.jpg')">
+          </div>
+        </div>
+        <div class="project-desc">
+          <strong>大弹丸侧供弹：</strong>用于 2024 英雄机器人，经多轮结构优化，对高尔夫球弹丸实现稳定 <strong>2Hz</strong> 供弹不卡顿。<br><br>
+          <strong>小弹丸中心供弹：</strong>用于步兵、哨兵、无人机。结构小巧轻便，提供 17mm 弹丸 <strong>25Hz 以上</strong>供弹效率。
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Image Modal -->
+<div class="modal" id="modal" onclick="closeModal()">
+  <span class="modal-close">&times;</span>
+  <img id="modal-img" src="" alt="">
+</div>
+
+<script>
+  // ===== Image gallery switcher =====
+  function switchImage(thumb, src) {
+    const gallery = thumb.parentElement;
+    const main = gallery.parentElement.querySelector('.gallery-main img');
+    main.src = src;
+    gallery.querySelectorAll('img').forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+  }
+
+  // ===== Modal =====
+  function openModal(src) {
+    document.getElementById('modal-img').src = src;
+    document.getElementById('modal').classList.add('show');
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('show');
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // ===== Scroll-triggered fade-in =====
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
     });
-  </script>
-<h1 id="%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF">个人信息</h1>
-<blockquote>
-<p>🏛️ <strong>香港科技大学电子与计算机工程专业 (CPEG), 2023-2027</strong></p>
-<p>🤖 <strong>3 年 RoboMaster 参赛经历 (香港科技大学 ENTERPRIZE 战队):</strong></p>
-<ul>
-<li>于 2025 赛季担任<strong>机械组组长</strong>职位</li>
-<li>获得 2025 赛季 <strong>工程全明星</strong>称号</li>
-<li>创造 4 级矿石 <strong>5.8s</strong> 最短兑换时长纪录</li>
-</ul>
-<p>⚙️ <strong>熟练掌握机械设计与制造流程:</strong></p>
-<ul>
-<li>熟练使用 <strong>SOLIDWORKS</strong> 进行复杂机构综合设计与结构优化</li>
-<li>对<strong>AutoCAD、Fusion 360</strong>有一定使用经验</li>
-<li>具备丰富的 <strong>3D 打印、CNC 加工、气动系统</strong>使用经验</li>
-<li>拥有两年的高精度装配经验</li>
-</ul>
-<p>💻 <strong>嵌入式与软件开发:</strong>‘</p>
-<ul>
-<li>使用 <strong>Python、MATLAB</strong> 进行项目脚本编写与数据处理</li>
-<li>懂得 <strong>STM32、C/C++</strong> 嵌入式开发的基本流程</li>
-</ul>
-</blockquote>
-<hr>
-<h1 id="%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE">个人项目</h1>
-<h3 id="11-robomaster2025-%E5%B7%A5%E7%A8%8B%E6%9C%BA%E5%99%A8%E4%BA%BA">1.1 RoboMaster2025 工程机器人</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">项目图片</th>
-<th style="text-align:left">项目详情</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><img src="全明星.jpg" width="200px"><br><img src="工程全明星.jpg" width="200px"><br><img src="机械臂.jpg" width="200px"></td>
-<td style="text-align:left"><strong>核心突破：</strong> 实现 5.8s 的破纪录采矿速度，入选 2025 赛季全明星阵容。<br><br><strong>机械设计：</strong><br><strong>高性能六轴机械臂系统</strong><br>• <strong>负载与范围</strong>：针对重载工况设计，末端有效负载逾 <strong>30kg</strong>，具备同级别领先的作业半径与空间通达度。<br>• <strong>鲁棒性与维护</strong>：结构经优化具备极高强度，在半年的高强度调试与实战中<strong>零重大结构损伤</strong>；采用模块化设计，支持快速迭代与小幅机构调整。<br>• <strong>精度表现</strong>：通过高刚性臂体设计与精密的传动补偿，确保重复定位精度满足精细作业需求。<br><br><strong>全向驱动底盘</strong><br>• <strong>动力方案</strong>：使用<strong>电动车橡胶轮</strong>，兼顾极高的地面抓地力与减震性能。<br>• <strong>结构特性</strong>：自研简化版气缸悬挂舵轮结构，在保证全向移动灵活性的同时，极大提升了机械臂底座稳定性。<br><br><strong>气动系统</strong><br>• <strong>闭环控制</strong>：自主改装高流量气泵，实现流量精准可调。<br>• <strong>状态反馈</strong>：通过电机电流/位置反馈逻辑，实现对吸附状态的<strong>实时监测</strong>，提升作业成功率。<br><br><strong>综合机构应用与工业设计</strong><br>• <strong>传动多元化</strong>：综合运用齿轮、连杆、链条及同步带等多种传动形式，实现动力的高效匹配。<br>• <strong>优雅走线</strong>：遵循工业级标准进行管线管理，确保多自由度运动下的走线安全与视觉美感。<code>机械设计</code> <code>系统集成</code> <code>高精度</code> <code>高稳定性</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>项目链接：</strong> <a href="https://www.bilibili.com/video/BV1Y482zjERP/?spm_id_from=333.788.videopod.sections&amp;vd_source=a3191892d8abed85f77e649dae496839">🔗 演示视频 (Bilibili)</a> | <a href="https://bbs.robomaster.com/article/803685?source=8">🔗 机械开源链接</a></p>
-<h3 id="12-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8E%A7%E5%88%B6%E5%99%A8%E9%AB%98%E7%B2%BE%E5%BA%A6%E9%81%A5%E6%93%8D%E4%BD%9C">1.2 自定义控制器（高精度遥操作）</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">项目图片</th>
-<th style="text-align:left">项目详情</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><img src="自定义控制器.png" width="200px"></td>
-<td style="text-align:left"><strong>核心功能</strong>：作为核心输入终端，与工程机器人深度耦合，支撑起创纪录的作业效率。<br><br><strong>人机交互与人体工学设计</strong><br>• <strong>直觉化操控</strong>：采用与主机械臂高度同构的六轴联动结构，实现操作者与机器人动作的 1:2 直觉映射。<br>• <strong>人体工学优化</strong>：针对手部抓握习惯进行轻量化设计，确保长时操作的舒适性与精准度。<br><br><strong>高性价比结构方案</strong><br>• <strong>低成本创新</strong>：大量使用3d打印及简单的3轴CNC加工显著降低成本。<br>• <strong>轻量化表现</strong>：桌面级尺寸，臂体轻便且具备低运动惯量，提供丝滑操控反馈。 <code>机械设计</code> <code>低成本</code> <code>人机交互</code></td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h3 id="2-robomaster2024-%E8%8B%B1%E9%9B%84%E6%9C%BA%E5%99%A8%E4%BA%BA">2. RoboMaster2024 英雄机器人</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">项目图片</th>
-<th style="text-align:left">项目详情</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><img src="英雄机器人.jpg" width="200px"></td>
-<td style="text-align:left"><strong>高一致性双极摩擦轮发射系统</strong><br>• <strong>精度控制</strong>：研发双极对冲摩擦轮机构，实现类高尔夫球弹丸在 10m 距离下的散布半径小于 <strong>25×25cm</strong>。通过优化摩擦轮，将弹丸初速度波动控制在 <strong>±0.1m/s</strong> 以内。<br><br><strong>高可靠性连续供弹机构</strong><br>• <strong>稳定输出</strong>：设计并实现了一套具备防卡死逻辑的拨弹结构，支持 <strong>2Hz</strong> 的恒定频率稳定供弹，确保在激烈对战中无堵塞、零延迟。<br>• <strong>自适应调整</strong>：机构针对弹丸尺寸公差进行了容错处理，显著降低了异形弹丸导致的机构卡死率。<br><br><strong>自适应麦克纳姆轮悬挂底盘</strong><br>• <strong>全向移动</strong>：基于麦克纳姆轮技术，实现机器人全维度灵巧位移与快速转场。<br>• <strong>高冲击耐受</strong>：自研<strong>自适应悬挂系统</strong>，具备极强的地形适应能力，能够平稳通过复杂路障，并成功通过 <strong>30cm 垂直跌落</strong>的高强度冲击测试。 <code>机械设计</code> <code>高精度</code></td>
-</tr>
-</tbody>
-</table>
-<hr>
-<h3 id="3-%E5%9B%9B%E8%BD%B4%E6%89%8B%E8%87%82%E5%A4%96%E9%AA%A8%E9%AA%BC-%E8%AF%BE%E8%AE%BE">3. 四轴手臂外骨骼 (课设)</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">项目图片</th>
-<th style="text-align:left">项目详情</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><img src="外骨骼.jpg" width="200px"></td>
-<td style="text-align:left">一款面向人机协同作业场景的<strong>穿戴式动力辅助设备</strong>。通过对人体上肢运动学模型的深度分析，设计并实现了一套具备 4 自由度的轻量化外骨骼原型机，旨在探索力矩补偿算法在提升人体搬运效率与降低劳动损伤方面的应用。<br><br><strong>运动学建模</strong>：基于 DH 参数法建立外骨骼运动学模型，并在仿真环境下验证了工作空间的覆盖率。<br><strong>算法控制</strong>：跟随模式：通过读取手背上的imu，预测手臂移动方向并进行跟随。助力模式：闭环控制电机保持现有动作，提供辅助力.<code>机械设计</code> <code>嵌入式开发</code></td>
-</tr>
-</tbody>
-</table>
-<h1 id="%E9%87%8D%E8%A6%81%E7%A0%94%E5%8F%91%E6%96%B9%E6%A1%88">重要研发方案</h1>
-<h3 id="1-%E5%85%AD%E8%BD%B4%E6%9C%BA%E6%A2%B0%E8%87%82%E7%BB%93%E6%9E%84">1. 六轴机械臂结构</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">项目图片</th>
-<th style="text-align:left">项目详情</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><img src="机械臂L3.jpg" width="200px"><br><img src="机械臂L4.jpg" width="200px"></td>
-<td style="text-align:left"><strong>工程机器人末端执行器核心设计</strong><br>• <strong>创新型“轮手”一体化末端</strong>：自主研发集主动轮与气动吸盘于一体的末端执行器，抓取与移动功能切换。<br><br>• <strong>多场耦合传输设计</strong>：创新采用电滑环与中空旋转气动接头嵌套方案，完美解决 J4 关节无限旋转时的电、气信号绕线问题。<br><br>• <strong>空间极简化布局</strong>：利用万向轴传动将电机后置于 L4 结构内，在不牺牲美观的前提下大幅压缩末端体积以适配矿槽尺寸。<br><br>• <strong>高精度传动集成</strong>：J5 与 J6 关节综合运用等速同步轮、齿轮组及锥齿轮传动链，经实测 J5 达到近乎零背隙的传动精度。</td>
-</tr>
-</tbody>
-</table>
-<h3 id="2-%E6%94%B9%E8%A3%85%E6%B0%94%E6%B3%B5">2. 改装气泵</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">项目图片</th>
-<th style="text-align:left">项目详情</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><img src="气泵.jpg" width="200px"></td>
-<td style="text-align:left"><strong>高性能气泵二次开发</strong>：通过将低端气泵电机改装为 3508 直流无刷电机驱动，在维持 $-85\text{kPa}$ 高真空度的前提下，实现了超过 $40\text{L/min}$ 的大流量输出，显著提升了末端吸盘的响应速度。利用电机电流反馈实时感知吸盘吸附状态，以极低成本实现了类气压计的检测功能。</td>
-</tr>
-</tbody>
-</table>
-<h3 id="3-%E5%A4%9A%E7%A7%8D%E8%88%B5%E8%BD%AE">3. 多种舵轮</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">项目图片</th>
-<th style="text-align:left">项目详情</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><img src="工程舵轮组.jpg" width="200px"><br><img src="英雄舵轮组.jpg" width="200px"></td>
-<td style="text-align:left">项目主要为应对不同需求设计的不同舵轮模组。<br><br><strong>高负载，高平稳度，高机动性需求</strong>：使用宽大的橡胶胎提供高抓地力，同时有一定减震能力。四个MGN7滑块与气弹簧组成舵下悬挂可以承受高负载，提供稳定性。 <br><br><strong>小型化、轻量化</strong>：舵上使用3508电机本体，齿轮传动配合光电门实现位置校准，尽量压缩结构高度。轮胎使用轻型聚氨酯轮。舵上悬挂进一步减少体积。</td>
-</tr>
-</tbody>
-</table>
-<h3 id="4-%E4%B8%A4%E7%A7%8D%E4%B8%8D%E5%90%8C%E7%BB%93%E6%9E%84%E4%BE%9B%E5%BC%B9%E7%B3%BB%E7%BB%9F">4. 两种不同结构供弹系统</h3>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">项目图片</th>
-<th style="text-align:left">项目详情</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><img src="大弹丸测供弹.jpg" width="200px"><br><img src="小弹丸中心供弹.jpg" width="200px"></td>
-<td style="text-align:left"><strong>大弹丸侧供弹</strong>：用于2024英雄机器人上，经过多轮结构优化设计，对类似高尔夫球的弹丸可以实现稳定的2Hz供弹不卡顿。 <br><br><strong>小弹丸中心供弹</strong>：用于对内步兵、烧饼、无人机上。结构小巧轻便的同时可以提供17mm弹丸25Hz以上的供弹效率。</td>
-</tr>
-</tbody>
-</table>
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+  // ===== Scroll spy: highlight active nav =====
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav-list a');
+
+  function updateActiveNav() {
+    let current = sections[0].id;
+    sections.forEach(s => {
+      const rect = s.getBoundingClientRect();
+      if (rect.top <= 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current && !a.classList.contains('sub')) {
+        a.classList.add('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveNav);
+
+  // ===== Trigger visible on load =====
+  setTimeout(() => {
+    document.querySelectorAll('.section').forEach(s => observer.observe(s));
+  }, 100);
+</script>
 
 </body>
 </html>
