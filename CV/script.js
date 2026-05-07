@@ -22,7 +22,7 @@
     bgDivs[bgIdx].classList.remove('show');
     bgIdx = (bgIdx + 1) % bgDivs.length;
     bgDivs[bgIdx].classList.add('show');
-  }, 5000);
+  }, 10000);
 })();
 
 // ===== Gallery auto-rotate =====
