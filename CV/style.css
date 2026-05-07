@@ -83,6 +83,31 @@ body {
   letter-spacing: 1px;
 }
 
+.sidebar-header .contact {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-header .contact a {
+  font-size: 15px;
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-header .contact a:hover { color: #fff; }
+
+.sidebar-header .contact .icon {
+  width: 18px;
+  text-align: center;
+  font-size: 15px;
+}
+
 .nav-section { margin-bottom: 24px; }
 
 .nav-section-title {
@@ -138,11 +163,9 @@ body {
   z-index: 1;
 }
 
-/* Invisible scrollbar — no gap */
-.main::-webkit-scrollbar { width: 6px; }
-.main::-webkit-scrollbar-track { background: transparent; }
-.main::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
-.main::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.28); }
+/* Completely hide scrollbar */
+.main { scrollbar-width: none; }
+.main::-webkit-scrollbar { width: 0; height: 0; display: none; }
 
 .section {
   margin-bottom: 64px;
@@ -225,21 +248,21 @@ body {
 .project-body { display: flex; gap: 32px; padding: 20px 32px 32px; align-items: flex-start; }
 
 /* ===== Gallery ===== */
-.project-gallery { flex-shrink: 0; width: 260px; }
+.project-gallery { flex-shrink: 0; width: 300px; }
 
 .gallery-main {
-  width: 260px; height: 260px;
+  width: 300px; height: 300px;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
   margin-bottom: 10px;
-  background: #f0f0f0;
+  background: #1a1a1a;
   position: relative;
 }
 
 .gallery-main img {
   width: 100%; height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: opacity 0.5s ease;
   position: absolute;
   top: 0; left: 0;
@@ -247,7 +270,7 @@ body {
 }
 
 .gallery-main img.show { opacity: 1; position: relative; }
-.gallery-main:hover img.show { transform: scale(1.05); }
+.gallery-main:hover img.show { transform: scale(1.03); }
 
 .gallery-thumbs {
   display: flex;
@@ -261,12 +284,13 @@ body {
 
 .gallery-thumbs img {
   width: 56px; height: 56px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 6px;
   cursor: pointer;
   border: 2px solid transparent;
   transition: border-color 0.2s;
   flex-shrink: 0;
+  background: #1a1a1a;
 }
 
 .gallery-thumbs img.active { border-color: var(--accent); }
@@ -342,6 +366,6 @@ body {
   .bg-slideshow { left: 0; }
   .project-body { flex-direction: column; }
   .project-gallery { width: 100%; }
-  .gallery-main { width: 100%; height: 220px; }
+  .gallery-main { width: 100%; height: 250px; }
   .skill-grid { grid-template-columns: 1fr; }
 }
