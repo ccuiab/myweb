@@ -1,7 +1,7 @@
 :root {
-  --sidebar-bg: #aac4dd;
-  --sidebar-text: #3d607a;
-  --sidebar-active: #0b2b45;
+  --sidebar-bg: #0b1d3a;
+  --sidebar-text: #a0b5cc;
+  --sidebar-active: #ffffff;
   --accent: #3a7ec5;
   --accent2: #5e9e6b;
   --accent3: #b08a5c;
@@ -25,7 +25,7 @@ body {
   line-height: 1.7;
   height: 100%;
   overflow: hidden;
-  background: #aac4dd;
+  background: #0b1d3a;
 }
 
 /* ===== Background Slideshow ===== */
@@ -76,7 +76,7 @@ body {
 .sidebar-header .name {
   font-size: 26px;
   font-weight: 700;
-  color: #0b2b45;
+  color: #ffffff;
   letter-spacing: 2px;
 }
 
@@ -107,7 +107,7 @@ body {
 
 .sidebar-header .contact a {
   font-size: 15px;
-  color: #3d607a;
+  color: #a0b5cc;
   text-decoration: none;
   transition: color 0.2s;
   display: flex;
@@ -115,7 +115,7 @@ body {
   gap: 8px;
 }
 
-.sidebar-header .contact a:hover { color: #0b2b45; }
+.sidebar-header .contact a:hover { color: #ffffff; }
 
 .sidebar-header .contact .icon {
   width: 18px;
@@ -129,7 +129,7 @@ body {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 3px;
-  color: #7a9bb5;
+  color: #556b82;
   margin-bottom: 10px;
   padding-left: 4px;
 }
@@ -147,11 +147,11 @@ body {
   transition: all 0.2s;
 }
 
-.nav-list a:hover { color: #0b2b45; background: rgba(11,43,69,0.06); }
+.nav-list a:hover { color: #ffffff; background: rgba(255,255,255,0.08); }
 
 .nav-list a.active {
   color: var(--sidebar-active);
-  background: rgba(58,126,197,0.18);
+  background: rgba(58,126,197,0.25);
   font-weight: 600;
 }
 
