@@ -6,35 +6,49 @@
 <title>崔楮焓 — Personal Portfolio</title>
 <style>
   :root {
-    --bg: #f5f5f7;
     --sidebar-bg: #1a1a2e;
     --sidebar-text: #a8a8c0;
     --sidebar-active: #ffffff;
     --accent: #4a90d9;
-    --accent-light: #e8f0fe;
-    --card-bg: #ffffff;
-    --text: #2c2c2c;
-    --text-light: #666;
-    --border: #e8e8e8;
+    --card-bg: rgba(255,255,255,0.92);
     --tag-bg: #eef2f7;
     --shadow: 0 2px 12px rgba(0,0,0,0.06);
-    --shadow-hover: 0 8px 30px rgba(0,0,0,0.10);
+    --shadow-hover: 0 8px 30px rgba(0,0,0,0.12);
     --radius: 12px;
     --sidebar-width: 280px;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; height: 100%; }
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-    display: flex;
-    background: var(--bg);
-    color: var(--text);
+    color: #2c2c2c;
     line-height: 1.7;
-    min-height: 100vh;
+    height: 100%;
+    overflow: hidden;
+    background: #1a1a2e;
   }
+
+  /* ===== Background Slideshow (right side only) ===== */
+  .bg-slideshow {
+    position: fixed;
+    top: 0; left: var(--sidebar-width); right: 0; bottom: 0;
+    z-index: 0;
+  }
+
+  .bg-slideshow .bg-img {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    filter: blur(2px) brightness(0.95);
+  }
+
+  .bg-slideshow .bg-img.show { opacity: 0.07; }
 
   /* ===== Sidebar ===== */
   .sidebar {
@@ -88,7 +102,6 @@
   }
 
   .nav-list { list-style: none; }
-
   .nav-list li { margin-bottom: 2px; }
 
   .nav-list a {
@@ -99,13 +112,9 @@
     text-decoration: none;
     border-radius: 6px;
     transition: all 0.2s;
-    position: relative;
   }
 
-  .nav-list a:hover {
-    color: #fff;
-    background: rgba(255,255,255,0.06);
-  }
+  .nav-list a:hover { color: #fff; background: rgba(255,255,255,0.06); }
 
   .nav-list a.active {
     color: var(--sidebar-active);
@@ -126,20 +135,24 @@
     color: #666;
   }
 
-  .sidebar-footer a {
-    color: var(--accent);
-    text-decoration: none;
-  }
-
+  .sidebar-footer a { color: var(--accent); text-decoration: none; }
   .sidebar-footer a:hover { text-decoration: underline; }
 
   /* ===== Main ===== */
   .main {
-    margin-left: var(--sidebar-width);
-    flex: 1;
+    position: fixed;
+    top: 0; left: var(--sidebar-width); right: 0; bottom: 0;
+    overflow-y: auto;
     padding: 48px 52px;
-    max-width: 1000px;
+    z-index: 1;
+    scroll-behavior: smooth;
   }
+
+  /* Custom scrollbar for main */
+  .main::-webkit-scrollbar { width: 6px; }
+  .main::-webkit-scrollbar-track { background: transparent; }
+  .main::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+  .main::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
 
   .section {
     margin-bottom: 64px;
@@ -148,16 +161,14 @@
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
-  .section.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .section.visible { opacity: 1; transform: translateY(0); }
 
   .section-title {
     font-size: 28px;
     font-weight: 700;
     margin-bottom: 8px;
     letter-spacing: 1px;
+    color: #e8e8e8;
   }
 
   .section-divider {
@@ -174,16 +185,12 @@
     border-radius: var(--radius);
     padding: 36px 40px;
     box-shadow: var(--shadow);
+    backdrop-filter: blur(8px);
   }
 
-  .hero-card .intro { font-size: 15px; color: var(--text-light); margin-bottom: 20px; line-height: 1.8; }
+  .hero-card .intro { font-size: 15px; color: #555; margin-bottom: 20px; line-height: 1.8; }
 
-  .skill-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-top: 24px;
-  }
+  .skill-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
 
   .skill-block h4 {
     font-size: 14px;
@@ -201,13 +208,7 @@
     display: inline-block;
   }
 
-  .skill-block ul {
-    list-style: none;
-    font-size: 14px;
-    color: var(--text-light);
-    line-height: 2;
-  }
-
+  .skill-block ul { list-style: none; font-size: 14px; color: #666; line-height: 2; }
   .skill-block ul li::before { content: "▸ "; color: var(--accent); font-size: 10px; }
 
   /* ===== Project Card ===== */
@@ -218,56 +219,43 @@
     margin-bottom: 32px;
     overflow: hidden;
     transition: box-shadow 0.3s;
+    backdrop-filter: blur(8px);
   }
 
   .project-card:hover { box-shadow: var(--shadow-hover); }
 
-  .project-header {
-    padding: 28px 32px 0;
-  }
+  .project-header { padding: 28px 32px 0; }
 
-  .project-header h3 {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
+  .project-header h3 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
 
-  .project-header .project-subtitle {
-    font-size: 13px;
-    color: var(--text-light);
-    margin-bottom: 8px;
-  }
+  .project-header .project-subtitle { font-size: 13px; color: #888; margin-bottom: 8px; }
 
-  .project-body {
-    display: flex;
-    gap: 32px;
-    padding: 20px 32px 32px;
-    align-items: flex-start;
-  }
+  .project-body { display: flex; gap: 32px; padding: 20px 32px 32px; align-items: flex-start; }
 
-  .project-gallery {
-    flex-shrink: 0;
-    width: 260px;
-  }
+  .project-gallery { flex-shrink: 0; width: 260px; }
 
   .gallery-main {
-    width: 260px;
-    height: 260px;
+    width: 260px; height: 260px;
     border-radius: 8px;
     overflow: hidden;
     cursor: pointer;
     margin-bottom: 10px;
     background: #f0f0f0;
+    position: relative;
   }
 
   .gallery-main img {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: cover;
-    transition: transform 0.3s;
+    transition: opacity 0.5s ease;
+    position: absolute;
+    top: 0; left: 0;
+    opacity: 0;
   }
 
-  .gallery-main:hover img { transform: scale(1.05); }
+  .gallery-main img.show { opacity: 1; position: relative; }
+
+  .gallery-main:hover img.show { transform: scale(1.05); }
 
   .gallery-thumbs {
     display: flex;
@@ -280,8 +268,7 @@
   .gallery-thumbs::-webkit-scrollbar-thumb { background: #ccc; border-radius: 2px; }
 
   .gallery-thumbs img {
-    width: 56px;
-    height: 56px;
+    width: 56px; height: 56px;
     object-fit: cover;
     border-radius: 6px;
     cursor: pointer;
@@ -292,28 +279,12 @@
 
   .gallery-thumbs img.active { border-color: var(--accent); }
 
-  .project-desc {
-    flex: 1;
-    font-size: 14px;
-    color: var(--text);
-    line-height: 1.9;
-  }
-
+  .project-desc { flex: 1; font-size: 14px; color: #444; line-height: 1.9; }
   .project-desc strong { color: #1a1a1a; }
-
-  .project-desc ul {
-    margin: 6px 0 12px 16px;
-    list-style: none;
-  }
-
+  .project-desc ul { margin: 6px 0 12px 16px; list-style: none; }
   .project-desc ul li::before { content: "• "; color: var(--accent); }
 
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 16px;
-  }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 
   .tag {
     font-size: 12px;
@@ -324,11 +295,7 @@
     letter-spacing: 1px;
   }
 
-  .project-links {
-    display: flex;
-    gap: 16px;
-    margin-top: 16px;
-  }
+  .project-links { display: flex; gap: 16px; margin-top: 16px; }
 
   .project-links a {
     font-size: 13px;
@@ -363,8 +330,7 @@
 
   .modal-close {
     position: fixed;
-    top: 24px;
-    right: 32px;
+    top: 24px; right: 32px;
     font-size: 32px;
     color: #fff;
     cursor: pointer;
@@ -377,16 +343,10 @@
 
   /* ===== Responsive ===== */
   @media (max-width: 800px) {
-    body { flex-direction: column; }
-    .sidebar {
-      position: relative;
-      width: 100%;
-      padding: 24px 20px;
-    }
-    .main {
-      margin-left: 0;
-      padding: 24px 20px;
-    }
+    body { flex-direction: column; overflow: auto; }
+    .sidebar { position: relative; width: 100%; padding: 24px 20px; }
+    .main { position: relative; left: 0; padding: 24px 20px; }
+    .bg-slideshow { left: 0; }
     .project-body { flex-direction: column; }
     .project-gallery { width: 100%; }
     .gallery-main { width: 100%; height: 220px; }
@@ -395,6 +355,9 @@
 </style>
 </head>
 <body>
+
+<!-- Background image slideshow -->
+<div class="bg-slideshow" id="bgSlideshow"></div>
 
 <!-- ==================== Sidebar ==================== -->
 <nav class="sidebar">
@@ -409,15 +372,15 @@
     <ul class="nav-list">
       <li><a href="#about" class="active">个人信息</a></li>
       <li><a href="#projects">个人项目</a></li>
-      <li><a href="#projects" class="sub">工程机器人 2025</a></li>
-      <li><a href="#projects" class="sub">自定义控制器</a></li>
-      <li><a href="#projects" class="sub">英雄机器人 2024</a></li>
-      <li><a href="#projects" class="sub">四轴外骨骼</a></li>
+      <li><a href="#proj-engineering" class="sub">工程机器人 2025</a></li>
+      <li><a href="#proj-controller" class="sub">自定义控制器</a></li>
+      <li><a href="#proj-hero" class="sub">英雄机器人 2024</a></li>
+      <li><a href="#proj-exo" class="sub">四轴外骨骼</a></li>
       <li><a href="#research">重要研发方案</a></li>
-      <li><a href="#research" class="sub">六轴机械臂</a></li>
-      <li><a href="#research" class="sub">改装气泵</a></li>
-      <li><a href="#research" class="sub">多种舵轮</a></li>
-      <li><a href="#research" class="sub">供弹系统</a></li>
+      <li><a href="#rd-arm" class="sub">六轴机械臂</a></li>
+      <li><a href="#rd-pump" class="sub">改装气泵</a></li>
+      <li><a href="#rd-wheel" class="sub">多种舵轮</a></li>
+      <li><a href="#rd-feeder" class="sub">供弹系统</a></li>
     </ul>
   </div>
 
@@ -427,7 +390,7 @@
 </nav>
 
 <!-- ==================== Main Content ==================== -->
-<main class="main">
+<main class="main" id="main">
 
   <!-- ===== 个人信息 ===== -->
   <section class="section" id="about">
@@ -471,14 +434,16 @@
         <div class="project-subtitle">机械组组长 · 工程全明星 · 5.8s 纪录</div>
       </div>
       <div class="project-body">
-        <div class="project-gallery">
-          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
-            <img src="全明星.jpg" alt="全明星">
+        <div class="project-gallery" data-gallery="eng">
+          <div class="gallery-main" onclick="openModal(currentGalleryImg(this.parentElement))">
+            <img src="全明星.jpg" class="show" alt="全明星">
+            <img src="工程全明星.jpg" alt="工程全明星">
+            <img src="机械臂.jpg" alt="机械臂">
           </div>
           <div class="gallery-thumbs">
-            <img src="全明星.jpg" class="active" onclick="switchImage(this, '全明星.jpg')">
-            <img src="工程全明星.jpg" onclick="switchImage(this, '工程全明星.jpg')">
-            <img src="机械臂.jpg" onclick="switchImage(this, '机械臂.jpg')">
+            <img src="全明星.jpg" class="active" onclick="galleryJump(this, 0)">
+            <img src="工程全明星.jpg" onclick="galleryJump(this, 1)">
+            <img src="机械臂.jpg" onclick="galleryJump(this, 2)">
           </div>
         </div>
         <div class="project-desc">
@@ -517,12 +482,12 @@
         <div class="project-subtitle">人机交互 · 六轴联动 · 低成本高精度</div>
       </div>
       <div class="project-body">
-        <div class="project-gallery">
-          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
-            <img src="自定义控制器.png" alt="自定义控制器">
+        <div class="project-gallery" data-gallery="ctrl">
+          <div class="gallery-main" onclick="openModal(currentGalleryImg(this.parentElement))">
+            <img src="自定义控制器.png" class="show" alt="自定义控制器">
           </div>
           <div class="gallery-thumbs">
-            <img src="自定义控制器.png" class="active" onclick="switchImage(this, '自定义控制器.png')">
+            <img src="自定义控制器.png" class="active" onclick="galleryJump(this, 0)">
           </div>
         </div>
         <div class="project-desc">
@@ -551,12 +516,12 @@
         <div class="project-subtitle">双极摩擦轮 · 自适应悬挂 · 全向移动</div>
       </div>
       <div class="project-body">
-        <div class="project-gallery">
-          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
-            <img src="英雄机器人.jpg" alt="英雄机器人">
+        <div class="project-gallery" data-gallery="hero">
+          <div class="gallery-main" onclick="openModal(currentGalleryImg(this.parentElement))">
+            <img src="英雄机器人.jpg" class="show" alt="英雄机器人">
           </div>
           <div class="gallery-thumbs">
-            <img src="英雄机器人.jpg" class="active" onclick="switchImage(this, '英雄机器人.jpg')">
+            <img src="英雄机器人.jpg" class="active" onclick="galleryJump(this, 0)">
           </div>
         </div>
         <div class="project-desc">
@@ -587,12 +552,12 @@
         <div class="project-subtitle">穿戴式动力辅助 · DH 参数建模 · IMU 跟随</div>
       </div>
       <div class="project-body">
-        <div class="project-gallery">
-          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
-            <img src="外骨骼.jpg" alt="外骨骼">
+        <div class="project-gallery" data-gallery="exo">
+          <div class="gallery-main" onclick="openModal(currentGalleryImg(this.parentElement))">
+            <img src="外骨骼.jpg" class="show" alt="外骨骼">
           </div>
           <div class="gallery-thumbs">
-            <img src="外骨骼.jpg" class="active" onclick="switchImage(this, '外骨骼.jpg')">
+            <img src="外骨骼.jpg" class="active" onclick="galleryJump(this, 0)">
           </div>
         </div>
         <div class="project-desc">
@@ -619,13 +584,14 @@
         <div class="project-subtitle">末端执行器 · 多场耦合传输 · 高精度传动</div>
       </div>
       <div class="project-body">
-        <div class="project-gallery">
-          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
-            <img src="机械臂L3.jpg" alt="机械臂L3">
+        <div class="project-gallery" data-gallery="arm">
+          <div class="gallery-main" onclick="openModal(currentGalleryImg(this.parentElement))">
+            <img src="机械臂L3.jpg" class="show" alt="机械臂L3">
+            <img src="机械臂L4.jpg" alt="机械臂L4">
           </div>
           <div class="gallery-thumbs">
-            <img src="机械臂L3.jpg" class="active" onclick="switchImage(this, '机械臂L3.jpg')">
-            <img src="机械臂L4.jpg" onclick="switchImage(this, '机械臂L4.jpg')">
+            <img src="机械臂L3.jpg" class="active" onclick="galleryJump(this, 0)">
+            <img src="机械臂L4.jpg" onclick="galleryJump(this, 1)">
           </div>
         </div>
         <div class="project-desc">
@@ -647,12 +613,12 @@
         <div class="project-subtitle">高性能二次开发 · 真空度 -85kPa · 40L/min</div>
       </div>
       <div class="project-body">
-        <div class="project-gallery">
-          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
-            <img src="气泵.jpg" alt="气泵">
+        <div class="project-gallery" data-gallery="pump">
+          <div class="gallery-main" onclick="openModal(currentGalleryImg(this.parentElement))">
+            <img src="气泵.jpg" class="show" alt="气泵">
           </div>
           <div class="gallery-thumbs">
-            <img src="气泵.jpg" class="active" onclick="switchImage(this, '气泵.jpg')">
+            <img src="气泵.jpg" class="active" onclick="galleryJump(this, 0)">
           </div>
         </div>
         <div class="project-desc">
@@ -668,13 +634,14 @@
         <div class="project-subtitle">高负载悬挂 · 小型化设计 · 全向机动</div>
       </div>
       <div class="project-body">
-        <div class="project-gallery">
-          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
-            <img src="工程舵轮组.jpg" alt="工程舵轮组">
+        <div class="project-gallery" data-gallery="wheel">
+          <div class="gallery-main" onclick="openModal(currentGalleryImg(this.parentElement))">
+            <img src="工程舵轮组.jpg" class="show" alt="工程舵轮组">
+            <img src="英雄舵轮组.jpg" alt="英雄舵轮组">
           </div>
           <div class="gallery-thumbs">
-            <img src="工程舵轮组.jpg" class="active" onclick="switchImage(this, '工程舵轮组.jpg')">
-            <img src="英雄舵轮组.jpg" onclick="switchImage(this, '英雄舵轮组.jpg')">
+            <img src="工程舵轮组.jpg" class="active" onclick="galleryJump(this, 0)">
+            <img src="英雄舵轮组.jpg" onclick="galleryJump(this, 1)">
           </div>
         </div>
         <div class="project-desc">
@@ -692,13 +659,14 @@
         <div class="project-subtitle">大弹丸侧供弹 · 小弹丸中心供弹</div>
       </div>
       <div class="project-body">
-        <div class="project-gallery">
-          <div class="gallery-main" onclick="openModal(this.querySelector('img').src)">
-            <img src="大弹丸测供弹.jpg" alt="大弹丸测供弹">
+        <div class="project-gallery" data-gallery="feeder">
+          <div class="gallery-main" onclick="openModal(currentGalleryImg(this.parentElement))">
+            <img src="大弹丸测供弹.jpg" class="show" alt="大弹丸测供弹">
+            <img src="小弹丸中心供弹.jpg" alt="小弹丸中心供弹">
           </div>
           <div class="gallery-thumbs">
-            <img src="大弹丸测供弹.jpg" class="active" onclick="switchImage(this, '大弹丸测供弹.jpg')">
-            <img src="小弹丸中心供弹.jpg" onclick="switchImage(this, '小弹丸中心供弹.jpg')">
+            <img src="大弹丸测供弹.jpg" class="active" onclick="galleryJump(this, 0)">
+            <img src="小弹丸中心供弹.jpg" onclick="galleryJump(this, 1)">
           </div>
         </div>
         <div class="project-desc">
@@ -718,58 +686,146 @@
 </div>
 
 <script>
-  // ===== Image gallery switcher =====
-  function switchImage(thumb, src) {
-    const gallery = thumb.parentElement;
-    const main = gallery.parentElement.querySelector('.gallery-main img');
-    main.src = src;
-    gallery.querySelectorAll('img').forEach(t => t.classList.remove('active'));
-    thumb.classList.add('active');
+// ===== All project images for background slideshow =====
+const allImages = [
+  '全明星.jpg', '工程全明星.jpg', '机械臂.jpg', '自定义控制器.png',
+  '英雄机器人.jpg', '外骨骼.jpg', '机械臂L3.jpg', '机械臂L4.jpg',
+  '气泵.jpg', '工程舵轮组.jpg', '英雄舵轮组.jpg',
+  '大弹丸测供弹.jpg', '小弹丸中心供弹.jpg'
+];
+
+// ===== Build background slideshow =====
+(function() {
+  const container = document.getElementById('bgSlideshow');
+  allImages.forEach((src, i) => {
+    const div = document.createElement('div');
+    div.className = 'bg-img';
+    div.style.backgroundImage = `url(${src})`;
+    if (i === 0) div.classList.add('show');
+    container.appendChild(div);
+  });
+
+  let bgIdx = 0;
+  const bgDivs = container.querySelectorAll('.bg-img');
+  setInterval(() => {
+    bgDivs[bgIdx].classList.remove('show');
+    bgIdx = (bgIdx + 1) % bgDivs.length;
+    bgDivs[bgIdx].classList.add('show');
+  }, 5000);
+})();
+
+// ===== Gallery system with auto-rotate =====
+const galleryTimers = {};
+
+function galleryJump(thumb, index) {
+  const gallery = thumb.parentElement.parentElement;
+  const mainImgs = gallery.querySelectorAll('.gallery-main img');
+  const thumbs = gallery.querySelectorAll('.gallery-thumbs img');
+
+  mainImgs.forEach((img, i) => { img.classList.toggle('show', i === index); });
+  thumbs.forEach((t, i) => { t.classList.toggle('active', i === index); });
+
+  // Reset auto-rotate timer for this gallery
+  restartGalleryTimer(gallery, index);
+}
+
+function currentGalleryImg(gallery) {
+  const imgs = gallery.querySelectorAll('.gallery-main img');
+  for (const img of imgs) {
+    if (img.classList.contains('show')) return img.src;
+  }
+  return imgs[0].src;
+}
+
+function autoAdvanceGallery(gallery) {
+  const mainImgs = gallery.querySelectorAll('.gallery-main img');
+  const thumbs = gallery.querySelectorAll('.gallery-thumbs img');
+  if (mainImgs.length <= 1) return;
+
+  let current = 0;
+  mainImgs.forEach((img, i) => { if (img.classList.contains('show')) current = i; });
+  const next = (current + 1) % mainImgs.length;
+
+  mainImgs.forEach((img, i) => { img.classList.toggle('show', i === next); });
+  thumbs.forEach((t, i) => { t.classList.toggle('active', i === next); });
+
+  restartGalleryTimer(gallery, next);
+}
+
+function restartGalleryTimer(gallery, fromIndex) {
+  const id = gallery.getAttribute('data-gallery');
+  if (galleryTimers[id]) clearInterval(galleryTimers[id]);
+
+  const imgs = gallery.querySelectorAll('.gallery-main img');
+  if (imgs.length <= 1) return;
+
+  galleryTimers[id] = setInterval(() => autoAdvanceGallery(gallery), 3500);
+}
+
+// Init all galleries
+document.querySelectorAll('.project-gallery').forEach(g => {
+  const imgs = g.querySelectorAll('.gallery-main img');
+  if (imgs.length > 1) restartGalleryTimer(g, 0);
+});
+
+// ===== Modal =====
+function openModal(src) {
+  document.getElementById('modal-img').src = src;
+  document.getElementById('modal').classList.add('show');
+}
+function closeModal() {
+  document.getElementById('modal').classList.remove('show');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ===== Fade-in =====
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.08, root: document.getElementById('main') });
+
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+
+// ===== Scroll spy =====
+const sectionIds = ['about','projects','proj-engineering','proj-controller','proj-hero','proj-exo',
+  'research','rd-arm','rd-pump','rd-wheel','rd-feeder'];
+const navLinks = document.querySelectorAll('.nav-list a');
+const mainEl = document.getElementById('main');
+
+function updateActiveNav() {
+  const scrollTop = mainEl.scrollTop + 80;
+
+  // Find current section
+  let current = 'about';
+  for (const id of sectionIds) {
+    const el = document.getElementById(id);
+    if (el && el.offsetTop <= scrollTop + 60) current = id;
   }
 
-  // ===== Modal =====
-  function openModal(src) {
-    document.getElementById('modal-img').src = src;
-    document.getElementById('modal').classList.add('show');
-  }
-  function closeModal() {
-    document.getElementById('modal').classList.remove('show');
-  }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+}
 
-  // ===== Scroll-triggered fade-in =====
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) entry.target.classList.add('visible');
-    });
-  }, { threshold: 0.1 });
+mainEl.addEventListener('scroll', updateActiveNav);
 
+// ===== Smooth scroll for nav clicks (override default since we use custom scroll container) =====
+document.querySelectorAll('.nav-list a').forEach(a => {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.getElementById(this.getAttribute('href').substring(1));
+    if (target) {
+      mainEl.scrollTo({ top: target.offsetTop - 20, behavior: 'smooth' });
+    }
+  });
+});
+
+// Initial trigger
+setTimeout(() => {
   document.querySelectorAll('.section').forEach(s => observer.observe(s));
-
-  // ===== Scroll spy: highlight active nav =====
-  const sections = document.querySelectorAll('.section');
-  const navLinks = document.querySelectorAll('.nav-list a');
-
-  function updateActiveNav() {
-    let current = sections[0].id;
-    sections.forEach(s => {
-      const rect = s.getBoundingClientRect();
-      if (rect.top <= 120) current = s.id;
-    });
-    navLinks.forEach(a => {
-      a.classList.remove('active');
-      if (a.getAttribute('href') === '#' + current && !a.classList.contains('sub')) {
-        a.classList.add('active');
-      }
-    });
-  }
-
-  window.addEventListener('scroll', updateActiveNav);
-
-  // ===== Trigger visible on load =====
-  setTimeout(() => {
-    document.querySelectorAll('.section').forEach(s => observer.observe(s));
-  }, 100);
+}, 100);
 </script>
 
 </body>
